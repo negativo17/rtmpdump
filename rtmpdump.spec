@@ -32,7 +32,7 @@ including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://.
 %package -n librtmp-devel
 Summary:        Files for librtmp development
 License:        LGPLv2+
-Requires:       librtmp%{?_isa} = %{version}-%{release}
+Requires:       librtmp%{?_isa} = %{?epoch}:%{version}-%{release}
 
 %description -n librtmp-devel
 librtmp is a support library for RTMP streams. The librtmp-devel package
