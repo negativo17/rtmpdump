@@ -4,15 +4,16 @@
 
 Name:           rtmpdump
 Version:        2.4
-Release:        8%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        9%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Epoch:          1
 Summary:        Toolkit for RTMP streams
-
 # The tools are GPLv2+. The library is LGPLv2+, see below.
 License:        GPLv2+
 URL:            http://%{name}.mplayerhq.hu/
+
 Source0:        http://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 
+BuildRequires:  gcc
 BuildRequires:  gnutls-devel
 BuildRequires:  libgcrypt-devel
 BuildRequires:  nettle-devel
@@ -54,7 +55,6 @@ find %{buildroot} -name "*.a" -delete
 %postun -n librtmp -p /sbin/ldconfig
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license COPYING
 %doc README
 %{_bindir}/rtmpdump
@@ -77,6 +77,9 @@ find %{buildroot} -name "*.a" -delete
 %{_mandir}/man3/librtmp.3*
 
 %changelog
+* Thu Sep 20 2018 Simone Caronni <negativo17@gmail.com> - 1:2.4-9.20151223gitfa8646d
+- Add GCC build requirement.
+
 * Wed Nov 09 2016 Simone Caronni <negativo17@gmail.com> - 1:2.4-8.20151223gitfa8646d
 - Update release version according to packaging guidelines.
 - Update source location.
