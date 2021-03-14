@@ -9,19 +9,20 @@ Epoch:          1
 Summary:        Toolkit for RTMP streams
 # The tools are GPLv2+. The library is LGPLv2+, see below.
 License:        GPLv2+
-URL:            http://%{name}.mplayerhq.hu/
+URL:            https://%{name}.mplayerhq.hu/
 
-Source0:        http://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:        https://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  gnutls-devel
-BuildRequires:  libgcrypt-devel
-BuildRequires:  nettle-devel
-BuildRequires:  zlib-devel
+
+BuildRequires:  pkgconfig(gnutls)
+BuildRequires:  pkgconfig(libgcrypt)
+BuildRequires:  pkgconfig(nettle)
+BuildRequires:  pkgconfig(zlib)
 
 %description
 rtmpdump is a toolkit for RTMP streams. All forms of RTMP are supported,
-including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://. 
+including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://.
 
 %package -n librtmp
 Summary:        Support library for RTMP streams
@@ -29,7 +30,7 @@ License:        LGPLv2+
 
 %description -n librtmp
 librtmp is a support library for RTMP streams. All forms of RTMP are supported,
-including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://. 
+including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://.
 
 %package -n librtmp-devel
 Summary:        Files for librtmp development
@@ -41,18 +42,16 @@ librtmp is a support library for RTMP streams. The librtmp-devel package
 contains include files needed to develop applications using librtmp.
 
 %prep
-%setup -qn %{name}-%{shortcommit0}
+%autosetup -p1 -n %{name}-%{shortcommit0}
 
 %build
-make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
+%make_build SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
 
 %install
-make CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir} install
+%make_install CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir}
 find %{buildroot} -name "*.a" -delete
 
-%post -n librtmp -p /sbin/ldconfig
-
-%postun -n librtmp -p /sbin/ldconfig
+%ldconfig_scriptlets -n librtmp
 
 %files
 %license COPYING
