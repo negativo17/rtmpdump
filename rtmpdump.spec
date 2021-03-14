@@ -22,7 +22,7 @@ BuildRequires:  pkgconfig(zlib)
 
 %description
 rtmpdump is a toolkit for RTMP streams. All forms of RTMP are supported,
-including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://. 
+including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://.
 
 %package -n librtmp
 Summary:        Support library for RTMP streams
@@ -30,7 +30,7 @@ License:        LGPLv2+
 
 %description -n librtmp
 librtmp is a support library for RTMP streams. All forms of RTMP are supported,
-including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://. 
+including rtmp://, rtmpt://, rtmpe://, rtmpte://, and rtmps://.
 
 %package -n librtmp-devel
 Summary:        Files for librtmp development
