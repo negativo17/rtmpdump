@@ -44,10 +44,10 @@ contains include files needed to develop applications using librtmp.
 %setup -qn %{name}-%{shortcommit0}
 
 %build
-make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
+%make_build SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
 
 %install
-make CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir} install
+%make_install CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir}
 find %{buildroot} -name "*.a" -delete
 
 %ldconfig_scriptlets -n librtmp
