@@ -14,10 +14,11 @@ URL:            http://%{name}.mplayerhq.hu/
 Source0:        http://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  gnutls-devel
-BuildRequires:  libgcrypt-devel
-BuildRequires:  nettle-devel
-BuildRequires:  zlib-devel
+
+BuildRequires:  pkgconfig(gnutls)
+BuildRequires:  pkgconfig(libgcrypt)
+BuildRequires:  pkgconfig(nettle)
+BuildRequires:  pkgconfig(zlib)
 
 %description
 rtmpdump is a toolkit for RTMP streams. All forms of RTMP are supported,
