@@ -41,7 +41,7 @@ librtmp is a support library for RTMP streams. The librtmp-devel package
 contains include files needed to develop applications using librtmp.
 
 %prep
-%setup -qn %{name}-%{shortcommit0}
+%autosetup -p1 -n %{name}-%{shortcommit0}
 
 %build
 %make_build SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
