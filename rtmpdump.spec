@@ -9,9 +9,9 @@ Epoch:          1
 Summary:        Toolkit for RTMP streams
 # The tools are GPLv2+. The library is LGPLv2+, see below.
 License:        GPLv2+
-URL:            http://%{name}.mplayerhq.hu/
+URL:            https://%{name}.mplayerhq.hu/
 
-Source0:        http://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:        https://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 
 BuildRequires:  gcc
 
