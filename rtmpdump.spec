@@ -50,9 +50,7 @@ make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
 make CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir} install
 find %{buildroot} -name "*.a" -delete
 
-%post -n librtmp -p /sbin/ldconfig
-
-%postun -n librtmp -p /sbin/ldconfig
+%ldconfig_scriptlets -n librtmp
 
 %files
 %license COPYING
