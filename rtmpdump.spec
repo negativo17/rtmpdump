@@ -1,17 +1,20 @@
-%global commit0 fa8646daeb19dfd12c181f7d19de708d623704c0
-%global date 20151223
+%global commit0 6f6bb1353fc84f4cc37138baa99f586750028a01
+%global date 20240301
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           rtmpdump
-Version:        2.4
-Release:        9%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Version:        2.6
+Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Epoch:          1
 Summary:        Toolkit for RTMP streams
 # The tools are GPLv2+. The library is LGPLv2+, see below.
 License:        GPLv2+
-URL:            http://%{name}.mplayerhq.hu/
+URL:            https://git.ffmpeg.org/gitweb/%{name}.git
 
-Source0:        http://git.ffmpeg.org/gitweb/%{name}.git/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+# Forbidden:
+#Source0:        %{url}/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:        %{name}-%{shortcommit0}.tar.xz
+Source1:        %{name}-snapshot.sh
 
 BuildRequires:  gcc
 BuildRequires:  gnutls-devel
@@ -41,7 +44,7 @@ librtmp is a support library for RTMP streams. The librtmp-devel package
 contains include files needed to develop applications using librtmp.
 
 %prep
-%setup -qn %{name}-%{shortcommit0}
+%autosetup -n %{name}
 
 %build
 make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
@@ -50,9 +53,9 @@ make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
 make CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir} install
 find %{buildroot} -name "*.a" -delete
 
-%post -n librtmp -p /sbin/ldconfig
-
-%postun -n librtmp -p /sbin/ldconfig
+%if 0%{?rhel} == 7
+%ldconfig_scriptlets -n librtmp
+%endif
 
 %files
 %license COPYING
@@ -65,7 +68,6 @@ find %{buildroot} -name "*.a" -delete
 %{_mandir}/man8/rtmpgw.8*
 
 %files -n librtmp
-%{!?_licensedir:%global license %%doc}
 %license librtmp/COPYING
 %doc ChangeLog
 %{_libdir}/librtmp.so.1
@@ -77,6 +79,10 @@ find %{buildroot} -name "*.a" -delete
 %{_mandir}/man3/librtmp.3*
 
 %changelog
+* Wed Apr 03 2024 Simone Caronni <negativo17@gmail.com> - 1:2.6-1.20240301git6f6bb13
+- Update to latest 2.6 release.
+- Clean up SPEC file.
+
 * Thu Sep 20 2018 Simone Caronni <negativo17@gmail.com> - 1:2.4-9.20151223gitfa8646d
 - Add GCC build requirement.
 
