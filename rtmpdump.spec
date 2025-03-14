@@ -2,6 +2,10 @@
 %global date 20240301
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
+%if 0%{?fedora} >= 42
+%global _sbindir %{_bindir}
+%endif
+
 Name:           rtmpdump
 Version:        2.6^%{date}git%{shortcommit}
 Release:        2%{?dist}
@@ -48,16 +52,32 @@ contains include files needed to develop applications using librtmp.
 make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
 
 %install
-make CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir} install
+make \
+    CRYPTO=GNUTLS \
+    SHARED=yes \
+    DESTDIR=%{buildroot} \
+    prefix=%{_prefix} \
+    mandir=%{_mandir} \
+    libdir=%{_libdir} \
+%if 0%{?fedora} >= 42
+    sbindir=%{_bindir} \
+%endif
+    install
 find %{buildroot} -name "*.a" -delete
 
 %files
 %license COPYING
 %doc README
 %{_bindir}/rtmpdump
+%if 0%{?fedora} >= 42
+%{_bindir}/rtmpsrv
+%{_bindir}/rtmpgw
+%{_bindir}/rtmpsuck
+%else
 %{_sbindir}/rtmpsrv
 %{_sbindir}/rtmpgw
 %{_sbindir}/rtmpsuck
+%endif
 %{_mandir}/man1/rtmpdump.1*
 %{_mandir}/man8/rtmpgw.8*
 
@@ -76,6 +96,7 @@ find %{buildroot} -name "*.a" -delete
 * Fri Mar 14 2025 Simone Caronni <negativo17@gmail.com> - 1:2.6^20240301git6f6bb13-2
 - Update package to new versioning guidelines.
 - Update URL.
+- Adjust for Fedora 42's unified bin directory.
 
 * Wed Apr 03 2024 Simone Caronni <negativo17@gmail.com> - 1:2.6-1.20240301git6f6bb13
 - Update to latest 2.6 release.
