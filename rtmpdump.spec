@@ -1,19 +1,17 @@
-%global commit0 6f6bb1353fc84f4cc37138baa99f586750028a01
+%global commit 6f6bb1353fc84f4cc37138baa99f586750028a01
 %global date 20240301
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           rtmpdump
-Version:        2.6
-Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Version:        2.6^%{date}git%{shortcommit}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        Toolkit for RTMP streams
 # The tools are GPLv2+. The library is LGPLv2+, see below.
 License:        GPLv2+
-URL:            https://git.ffmpeg.org/gitweb/%{name}.git
+URL:            https://%{name}.mplayerhq.hu/
 
-# Forbidden:
-#Source0:        %{url}/snapshot/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
-Source0:        %{name}-%{shortcommit0}.tar.xz
+Source0:        %{name}-%{shortcommit}.tar.xz
 Source1:        %{name}-snapshot.sh
 
 BuildRequires:  gcc
@@ -53,10 +51,6 @@ make SYS=posix CRYPTO=GNUTLS SHARED=yes OPT="%{optflags}"
 make CRYPTO=GNUTLS SHARED=yes DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir} install
 find %{buildroot} -name "*.a" -delete
 
-%if 0%{?rhel} == 7
-%ldconfig_scriptlets -n librtmp
-%endif
-
 %files
 %license COPYING
 %doc README
@@ -79,6 +73,10 @@ find %{buildroot} -name "*.a" -delete
 %{_mandir}/man3/librtmp.3*
 
 %changelog
+* Fri Mar 14 2025 Simone Caronni <negativo17@gmail.com> - 1:2.6^20240301git6f6bb13-2
+- Update package to new versioning guidelines.
+- Update URL.
+
 * Wed Apr 03 2024 Simone Caronni <negativo17@gmail.com> - 1:2.6-1.20240301git6f6bb13
 - Update to latest 2.6 release.
 - Clean up SPEC file.
